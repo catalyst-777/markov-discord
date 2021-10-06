@@ -55,18 +55,21 @@ def make_text(chains):
 token = os.getenv("Discord_Token")
 client = discord.Client()
 
+filenames = sys.argv[1:]
+text = open_and_read_file(filenames)
+chains = make_chains(text)
+
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
+
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
 
-    filenames = sys.argv[1:]
-    text = open_and_read_file(filenames)
-    chains = make_chains(text)
     msg = make_text(chains)
 
     await message.channel.send(msg)
